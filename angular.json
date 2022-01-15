@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "projects": {
+    "generals": {
+      "projectType": "application",
+      "root": "apps/generals",
+      "sourceRoot": "apps/generals/src",
+      "prefix": "angular-generals",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/generals",
+            "index": "apps/generals/src/index.html",
+            "main": "apps/generals/src/main.ts",
+            "polyfills": "apps/generals/src/polyfills.ts",
+            "tsConfig": "apps/generals/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/generals/src/favicon.ico",
+              "apps/generals/src/assets"
+            ],
+            "styles": ["apps/generals/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/generals/src/environments/environment.ts",
+                  "with": "apps/generals/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "generals:build:production"
+            },
+            "development": {
+              "browserTarget": "generals:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "generals:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/generals/src/**/*.ts",
+              "apps/generals/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/generals"],
+          "options": {
+            "jestConfig": "apps/generals/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "generals-e2e": {
+      "root": "apps/generals-e2e",
+      "sourceRoot": "apps/generals-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/generals-e2e/cypress.json",
+            "devServerTarget": "generals:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "generals:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/generals-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["generals"]
+    }
+  }
+}
