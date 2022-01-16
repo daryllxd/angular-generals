@@ -1,6 +1,125 @@
 {
   "version": 1,
   "projects": {
+    "foobar": {
+      "projectType": "application",
+      "root": "apps/foobar",
+      "sourceRoot": "apps/foobar/src",
+      "prefix": "angular-generals",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/foobar",
+            "index": "apps/foobar/src/index.html",
+            "main": "apps/foobar/src/main.ts",
+            "polyfills": "apps/foobar/src/polyfills.ts",
+            "tsConfig": "apps/foobar/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/foobar/src/favicon.ico", "apps/foobar/src/assets"],
+            "styles": ["apps/foobar/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/foobar/src/environments/environment.ts",
+                  "with": "apps/foobar/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "foobar:build:production"
+            },
+            "development": {
+              "browserTarget": "foobar:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "foobar:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/foobar/src/**/*.ts",
+              "apps/foobar/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/foobar"],
+          "options": {
+            "jestConfig": "apps/foobar/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "foobar-e2e": {
+      "root": "apps/foobar-e2e",
+      "sourceRoot": "apps/foobar-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/foobar-e2e/cypress.json",
+            "devServerTarget": "foobar:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "foobar:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/foobar-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["foobar"]
+    },
     "generals": {
       "projectType": "application",
       "root": "apps/generals",
@@ -9,9 +128,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/generals",
             "index": "apps/generals/src/index.html",
@@ -91,9 +208,7 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/generals"
-          ],
+          "outputs": ["coverage/apps/generals"],
           "options": {
             "jestConfig": "apps/generals/jest.config.js",
             "passWithNoTests": true
@@ -121,20 +236,14 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/generals-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/generals-e2e/**/*.{js,ts}"]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": [
-        "generals"
-      ]
+      "implicitDependencies": ["generals"]
     },
     "ui": {
       "projectType": "library",
@@ -144,9 +253,7 @@
       "architect": {
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/ui"
-          ],
+          "outputs": ["coverage/libs/ui"],
           "options": {
             "jestConfig": "libs/ui/jest.config.js",
             "passWithNoTests": true
@@ -155,10 +262,7 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/ui/src/**/*.ts",
-              "libs/ui/src/**/*.html"
-            ]
+            "lintFilePatterns": ["libs/ui/src/**/*.ts", "libs/ui/src/**/*.html"]
           }
         }
       },
