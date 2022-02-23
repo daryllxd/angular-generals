@@ -23,8 +23,17 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "extends": [
+        "plugin:@nrwl/nx/typescript"
+      ],
+      "plugins": [
+        "eslint-plugin-import",
+        "unused-imports"
+      ],
+      "rules": {
+        "import/no-duplicates": 1,
+        "unused-imports/no-unused-imports": 1
+      }
     },
     {
       "files": ["*.js", "*.jsx"],

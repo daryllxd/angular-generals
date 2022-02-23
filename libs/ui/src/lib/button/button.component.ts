@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'angular-generals-button',
@@ -6,8 +6,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent implements OnInit {
-
-  ngOnInit(): void {
-  }
-}
+export class ButtonComponent {}
