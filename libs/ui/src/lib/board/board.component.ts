@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Board } from '../ui.module';
+import { Board } from '@angular-generals/game/lib/types/board.type';
 
 @Component({
   selector: 'angular-generals-board',
